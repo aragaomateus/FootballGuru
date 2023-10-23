@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2, h3 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px 12px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Results</h2>
+    <p>Selected League: {{ league_name }}</p>
+    <p>Selected Year: {{ year }}</p>
+    <p>Selected Team: {{ team }}</p>
+    <h3>Player Data</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <!-- Add other fields as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players_data %}
+                <tr>
+                    <td>{{ player.fullName }}</td>
+                    <!-- Add other fields as needed -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Weight vs. Height</h3>
+    <canvas id="myChart" style="width:100%; height: 400px;"></canvas>
+    <script>
+        let ctx = document.getElementById('myChart').getContext('2d');
+    
+        let data = {
+            datasets: [{
+                label: 'Players',
+                data: [
+                    {% for player in players_data %}
+                        {
+                            x: {{ player.weight }},
+                            y: {{ player.height }},
+                            labels: "{{ player.fullName }}"
+                        },
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+            }]
+        };
+    
+        let scatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Weight'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Height'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.labels+ ": (" + context.parsed.x + ", " + context.parsed.y + ")";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+
+    <a href="{{ url_for('select_league') }}">Go Back</a>
+</body>
+</html>

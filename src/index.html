@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>League Picker</title>
+</head>
+<body>
+
+<form method="post" action="/">
+    <select name="league_name">
+        {% for league in leagues %}
+            <option value="{{ league }}" {% if league == league_name %}selected{% endif %}>{{ league }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="year">
+        {% for y in years %}
+            <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="team">
+        {% for t in teams %}
+            <option value="{{ t }}" {% if t == team %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="player">
+        {% for p in players %}
+            <option value="{{ p }}" {% if p == player %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="submit" value="Submit">
+</form>
+
+<h2>You selected {{ team }} from {{ year }}.</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>Team Name</th>
+            <th>Full Name</th>
+            <!-- Add other fields as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for stat in selected_player_stats %}
+            <tr>
+                <td>{{ stat.season }}</td>
+                <td>{{ stat.teamName }}</td>
+                <td>{{ stat.fullName }}</td>
+                <!-- Add other fields as needed -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

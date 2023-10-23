@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>League Picker</title>
+</head>
+<body>
+<form method="post" action="/">
+    <select name="league_name">
+        {% for league in leagues %}
+            <option value="{{ league }}">{{ league }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Next">
+</form>
+</body>
+</html>

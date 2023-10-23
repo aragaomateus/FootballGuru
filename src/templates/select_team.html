@@ -1,0 +1,10 @@
+<p>Selected League: {{ league_name }}</p>
+<p>Selected Year: {{ year }}</p>
+<form method="post" action="">
+    <select name="team">
+        {% for t in teams %}
+            <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
